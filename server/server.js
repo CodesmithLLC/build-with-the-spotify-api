@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import 'dotenv/config'
 
 import apiRouter from './apiRouter.js'
 
@@ -13,6 +14,18 @@ app.use('/api', apiRouter)
 
 app.get('/', (req, res) => {
   res.send('hello world!')
+})
+
+app.get('/callback', (req, res) => {
+  const { code, state } = req.query
+  console.log({ code, state })
+
+  if (!state) {
+    res.status(400).send('state mismatch')
+    return
+  }
+
+  res.send('callback')
 })
 
 app.use((req, res) => {
