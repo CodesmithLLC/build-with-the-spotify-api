@@ -24,6 +24,9 @@ router.get('/spotify-login', (_req, res) => {
     scope,
     redirect_uri,
     state,
+
+    // for demo purposes; ensures that spotify's auth dialog is always shown
+    show_dialog: 'true',
   }).toString()
 
   res.redirect('https://accounts.spotify.com/authorize?' + params)

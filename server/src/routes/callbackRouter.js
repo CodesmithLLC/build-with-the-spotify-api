@@ -42,12 +42,12 @@ router.get('/', async (req, res) => {
         }),
       }
     )
-    if (!accessTokenResponse.ok) throw new Error('access token error')
+    if (!accessTokenResponse.ok)
+      throw new Error('Failed to obtain access token from Spotify')
 
-    const accessTokenData = await accessTokenResponse.json()
-    const { access_token, expires_in } = accessTokenData
+    const { access_token, expires_in } = await accessTokenResponse.json()
 
-    // Redirect back to client with access token as URL parameters
+    // redirect back to client with access token + expiration time as URL parameters
     const accessTokenParams = new URLSearchParams({
       access_token,
       expires_in,

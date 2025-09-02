@@ -23,15 +23,15 @@ app.get('/', (_req, res) => {
 })
 
 app.use((_req, res) => {
-  res.status(404).send('oops! nothing here.')
+  res.status(404).send('Oops! Nothing here.')
 })
 
 const globalErrorHandler = (err, _req, res, _next) => {
   console.error(err.stack)
-  res.status(500).send('something broke!')
+  res.status(500).send(`Something went wrong: ${err.message}`)
 }
 app.use(globalErrorHandler)
 
 app.listen(PORT, () =>
-  console.log(`📡 server listening on http://localhost:${PORT}...`)
+  console.log(`📡 Server listening on http://localhost:${PORT}...`)
 )
