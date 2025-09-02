@@ -6,11 +6,11 @@ import { generateRandomString } from './utils/generateRandomString.js'
 const client_id = process.env.SPOTIFY_CLIENT_ID
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI
 
-router.get('/', (req, res) => {
+router.get('/', (_, res) => {
   res.send('hello from /api!')
 })
 
-router.get('/spotify-login', (req, res) => {
+router.get('/spotify-login', (_, res) => {
   // https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
   const scope = 'user-top-read'
 
