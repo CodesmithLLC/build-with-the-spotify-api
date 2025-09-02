@@ -1,6 +1,8 @@
 import express from 'express'
 const router = express.Router()
 
+import { createBase64EncodedString } from './utils/createBase64EncodedString.js'
+
 const client_id = process.env.SPOTIFY_CLIENT_ID
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI
@@ -9,11 +11,8 @@ router.get('/', async (req, res) => {
   const { code, state, error } = req.query
 
   // error handling
-  if (error) {
-    return res.status(400).send(`something went wrong: ${error}`)
-  } else if (!state) {
-    return res.redirect('/#error=state_mismatch')
-  }
+  if (error) return res.status(400).send(`something went wrong: ${error}`)
+  else if (!state) return res.redirect('/#error=state_mismatch')
 
   try {
     // obtain access token with authorization code
@@ -25,8 +24,7 @@ router.get('/', async (req, res) => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization:
-            'Basic ' +
-            Buffer.from(client_id + ':' + client_secret).toString('base64'),
+            'Basic ' + createBase64EncodedString(client_id, client_secret),
         },
 
         body: new URLSearchParams({
@@ -36,9 +34,11 @@ router.get('/', async (req, res) => {
         }),
       }
     )
-    const accessTokenData = await accessTokenResponse.json()
+    if (!accessTokenResponse.ok) throw new Error('access token error')
 
+    const accessTokenData = await accessTokenResponse.json()
     const { access_token, expires_in } = accessTokenData
+    
     res.status(200).json({ accessToken: access_token, expiresIn: expires_in })
   } catch (error) {
     console.error(error.message)

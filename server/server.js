@@ -18,11 +18,11 @@ app.use(
 app.use('/api', apiRouter)
 app.use('/callback', callbackRouter)
 
-app.get('/', (_, res) => {
-  res.send('hello world!')
+app.get('/', (_req, res) => {
+  res.status(200).json({ route: '/', status: 'ok' })
 })
 
-app.use((_, res) => {
+app.use((_req, res) => {
   res.status(404).send('oops! nothing here.')
 })
 
