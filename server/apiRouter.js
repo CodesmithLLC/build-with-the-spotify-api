@@ -14,12 +14,16 @@ router.get('/spotify-login', (req, res) => {
   // https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
   const scope = 'user-top-read'
 
+  // https://stackoverflow.com/questions/26132066/what-is-the-purpose-of-the-state-parameter-in-oauth-authorization-request
+  const state = generateRandomString(16)
+
+  // create query string with appropriate parameters
   const params = new URLSearchParams({
     response_type: 'code',
     client_id,
     scope,
     redirect_uri,
-    state: generateRandomString(16),
+    state,
   }).toString()
 
   res.redirect('https://accounts.spotify.com/authorize?' + params)
