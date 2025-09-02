@@ -6,13 +6,21 @@ import { createBase64EncodedString } from '../utils/createBase64EncodedString.js
 const client_id = process.env.SPOTIFY_CLIENT_ID
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI
+const client_url = process.env.CLIENT_URL || 'http://localhost:5173'
 
 router.get('/', async (req, res) => {
   const { code, state, error } = req.query
 
   // error handling
-  if (error) return res.status(400).send(`something went wrong: ${error}`)
-  else if (!state) return res.redirect('/#error=state_mismatch')
+  if (error) {
+    const errorParams = new URLSearchParams({ error }).toString()
+    return res.redirect(client_url + '?' + errorParams)
+  } else if (!state) {
+    const stateMismatchParams = new URLSearchParams({
+      error: 'state_mismatch',
+    }).toString()
+    return res.redirect(client_url + '?' + stateMismatchParams)
+  }
 
   try {
     // obtain access token with authorization code
@@ -39,11 +47,18 @@ router.get('/', async (req, res) => {
     const accessTokenData = await accessTokenResponse.json()
     const { access_token, expires_in } = accessTokenData
 
-    res.status(200).json({ accessToken: access_token, expiresIn: expires_in })
+    // Redirect back to client with access token as URL parameters
+    const accessTokenParams = new URLSearchParams({
+      access_token,
+      expires_in,
+    }).toString()
+
+    res.redirect(client_url + '?' + accessTokenParams)
   } catch (error) {
     console.error(error.message)
 
-    res.status(400).send(`something went wrong: ${error.message}`)
+    const errorParams = new URLSearchParams({ error: error.message }).toString()
+    res.redirect(client_url + '?' + errorParams)
   }
 })
 
