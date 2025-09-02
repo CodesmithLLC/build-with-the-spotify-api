@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 
-import { createBase64EncodedString } from './utils/createBase64EncodedString.js'
+import { createBase64EncodedString } from '../utils/createBase64EncodedString.js'
 
 const client_id = process.env.SPOTIFY_CLIENT_ID
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 
     const accessTokenData = await accessTokenResponse.json()
     const { access_token, expires_in } = accessTokenData
-    
+
     res.status(200).json({ accessToken: access_token, expiresIn: expires_in })
   } catch (error) {
     console.error(error.message)

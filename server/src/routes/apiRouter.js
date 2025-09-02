@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 
-import { generateRandomString } from './utils/generateRandomString.js'
+import { generateRandomString } from '../utils/generateRandomString.js'
 
 const client_id = process.env.SPOTIFY_CLIENT_ID
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI

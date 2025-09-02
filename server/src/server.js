@@ -2,8 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 
-import apiRouter from './apiRouter.js'
-import callbackRouter from './callbackRouter.js'
+import apiRouter from './routes/apiRouter.js'
+import callbackRouter from './routes/callbackRouter.js'
 
 const app = express()
 const PORT = 3000
