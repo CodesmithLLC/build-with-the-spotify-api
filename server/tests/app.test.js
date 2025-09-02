@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import request from 'supertest'
+
 import app from '../src/server.js'
 
-describe('App', () => {
-  describe('Root endpoint', () => {
-    it('should return status ok for root route', async () => {
+describe('server', () => {
+  describe('root endpoint', () => {
+    it('should return 200 w/ status "ok" for root route', async () => {
       const response = await request(app).get('/').expect(200)
 
       expect(response.body).toEqual({
@@ -49,8 +50,6 @@ describe('App', () => {
 
   describe('JSON middleware', () => {
     it('should parse JSON request bodies', async () => {
-      // Since we don't have POST endpoints, we'll test that the middleware is loaded
-      // by checking that it doesn't interfere with GET requests
       const response = await request(app)
         .get('/')
         .set('Content-Type', 'application/json')
@@ -63,20 +62,18 @@ describe('App', () => {
     })
   })
 
-  describe('Error handling middleware', () => {
+  describe('error handling middleware', () => {
     it('should have error handling middleware in place', async () => {
-      // Test that the app is properly configured with middleware
-      // We can verify this by checking that the app exists and has the expected structure
       expect(app).toBeDefined()
-      expect(typeof app).toBe('function') // Express apps are functions
+      expect(typeof app).toBe('function') // express apps are functions
 
-      // Test that error handling works by checking app properties
+      // test that error handling works by checking app properties
       expect(app.settings).toBeDefined()
       expect(app.locals).toBeDefined()
     })
   })
 
-  describe('Route mounting', () => {
+  describe('route mounting', () => {
     it('should mount API routes correctly', async () => {
       const response = await request(app).get('/api').expect(200)
 
@@ -88,7 +85,7 @@ describe('App', () => {
         .get('/callback?error=test')
         .expect(302)
 
-      // Should redirect (testing that callback route is mounted)
+      // should redirect (testing that callback route is mounted)
       expect(response.headers.location).toContain('error=test')
     })
   })

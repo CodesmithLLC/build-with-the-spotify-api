@@ -1,8 +1,8 @@
 import { beforeAll, afterAll, vi } from 'vitest'
 
-// Global test setup
+// global test setup
 beforeAll(() => {
-  // Suppress console.log during tests unless needed
+  // suppress console.log/error during tests unless needed
   if (process.env.NODE_ENV !== 'test-verbose') {
     vi.spyOn(console, 'log').mockImplementation(() => {})
     vi.spyOn(console, 'error').mockImplementation(() => {})
@@ -10,26 +10,25 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  // Restore console methods
-  vi.restoreAllMocks()
+  vi.restoreAllMocks() // restore console methods
 })
 
-// Mock environment variables that are commonly needed
+// mock environment variables
 export const mockEnvVars = {
   SPOTIFY_CLIENT_ID: 'test_client_id',
   SPOTIFY_CLIENT_SECRET: 'test_client_secret',
-  SPOTIFY_REDIRECT_URI: 'http://localhost:3000/callback',
+  SPOTIFY_REDIRECT_URI: 'http://127.0.0.1:3000/callback',
   CLIENT_URL: 'http://localhost:5173',
 }
 
-// Helper function to setup environment for tests
+// set up environment for tests
 export const setupTestEnv = () => {
   Object.entries(mockEnvVars).forEach(([key, value]) => {
     vi.stubEnv(key, value)
   })
 }
 
-// Helper function to cleanup environment after tests
+// clean up environment after tests
 export const cleanupTestEnv = () => {
   vi.unstubAllEnvs()
 }

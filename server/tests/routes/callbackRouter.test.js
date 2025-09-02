@@ -8,23 +8,22 @@ import {
   vi,
 } from 'vitest'
 import request from 'supertest'
+
 import app from '../../src/server.js'
 
-// Mock fetch globally
-global.fetch = vi.fn()
+global.fetch = vi.fn() // mock fetch globally
 
-describe('Callback Router', () => {
+describe('route: /callback', () => {
   beforeAll(() => {
-    // Clear any existing env vars and mock them
+    // clear any existing env vars and mock them
     delete process.env.SPOTIFY_CLIENT_ID
     delete process.env.SPOTIFY_CLIENT_SECRET
     delete process.env.SPOTIFY_REDIRECT_URI
     delete process.env.CLIENT_URL
 
-    // Mock environment variables
     vi.stubEnv('SPOTIFY_CLIENT_ID', 'test_client_id')
     vi.stubEnv('SPOTIFY_CLIENT_SECRET', 'test_client_secret')
-    vi.stubEnv('SPOTIFY_REDIRECT_URI', 'http://localhost:3000/callback')
+    vi.stubEnv('SPOTIFY_REDIRECT_URI', 'http://127.0.0.1:3000/callback')
     vi.stubEnv('CLIENT_URL', 'http://localhost:5173')
   })
 
@@ -58,7 +57,7 @@ describe('Callback Router', () => {
     })
 
     it('should successfully exchange code for access token and redirect', async () => {
-      // Mock successful Spotify token response
+      // mock successful Spotify token response
       fetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
@@ -75,7 +74,7 @@ describe('Callback Router', () => {
         'http://localhost:5173?access_token=test_access_token&expires_in=3600'
       )
 
-      // Verify fetch was called with correct parameters
+      // verify fetch was called with correct parameters
       expect(fetch).toHaveBeenCalledWith(
         'https://accounts.spotify.com/api/token',
         expect.objectContaining({
@@ -90,7 +89,7 @@ describe('Callback Router', () => {
     })
 
     it('should handle Spotify API failure gracefully', async () => {
-      // Mock failed Spotify token response
+      // mock failed Spotify token response
       fetch.mockResolvedValueOnce({
         ok: false,
         status: 400,
@@ -138,10 +137,10 @@ describe('Callback Router', () => {
       const fetchCall = fetch.mock.calls[0]
       const authHeader = fetchCall[1].headers.Authorization
 
-      // Decode the base64 to verify it's in the correct format
+      // decode the base64 to verify it's in the correct format
       const base64Part = authHeader.replace('Basic ', '')
       const decoded = Buffer.from(base64Part, 'base64').toString()
-      expect(decoded).toMatch(/^.+:.+$/) // Should be in format "clientId:clientSecret"
+      expect(decoded).toMatch(/^.+:.+$/) // should be in format "clientId:clientSecret"
       expect(authHeader).toMatch(/^Basic [A-Za-z0-9+/]+=*$/)
     })
 
