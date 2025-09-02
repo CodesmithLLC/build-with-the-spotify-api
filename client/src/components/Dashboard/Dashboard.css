@@ -272,6 +272,9 @@
     left: 0;
     box-shadow: none;
     border-right: 1px solid #333;
+    height: 100vh;
+    position: sticky;
+    top: 0;
   }
 
   .drawer-overlay {
