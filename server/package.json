@@ -4,9 +4,11 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "author": "Jaime de Venecia",
   "license": "MIT",
@@ -16,6 +18,9 @@
   },
   "devDependencies": {
     "dotenv": "^17.2.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "vitest": "^2.1.8",
+    "supertest": "^7.0.0",
+    "@vitest/coverage-v8": "^2.1.8"
   }
 }
