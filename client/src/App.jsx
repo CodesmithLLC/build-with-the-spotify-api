@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 
-import HomePage from './components/HomePage'
-import Dashboard from './components/Dashboard'
+import LoginPage from './pages/LoginPage'
+import Dashboard from './pages/Dashboard'
 
 const serverUrl = import.meta.env.VITE_SERVER_URL
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [accessToken, setAccessToken] = useState(null)
-  const [_, setTokenExpiry] = useState(null)
 
   // check for existing token in localStorage on app load
   useEffect(() => {
@@ -17,9 +16,9 @@ function App() {
 
     if (savedToken && savedExpiry) {
       const now = new Date().getTime()
+
       if (now < parseInt(savedExpiry)) {
         setAccessToken(savedToken)
-        setTokenExpiry(parseInt(savedExpiry))
         setIsAuthenticated(true)
       } else {
         localStorage.removeItem('spotify_access_token')
@@ -38,11 +37,12 @@ function App() {
     if (error) {
       console.error('Authentication error:', error)
       window.history.replaceState(null, '', window.location.pathname)
-    } else if (access_token && expires_in) {
+    }
+
+    if (access_token && expires_in) {
       const expiryTime = new Date().getTime() + parseInt(expires_in) * 1000
 
       setAccessToken(access_token)
-      setTokenExpiry(expiryTime)
       setIsAuthenticated(true)
 
       // store in localStorage
@@ -61,7 +61,6 @@ function App() {
   const handleLogout = () => {
     setIsAuthenticated(false)
     setAccessToken(null)
-    setTokenExpiry(null)
 
     localStorage.removeItem('spotify_access_token')
     localStorage.removeItem('spotify_token_expiry')
@@ -70,7 +69,7 @@ function App() {
   return (
     <div className="app">
       {!isAuthenticated ? (
-        <HomePage onLogin={handleLogin} />
+        <LoginPage onLogin={handleLogin} />
       ) : (
         <Dashboard accessToken={accessToken} onLogout={handleLogout} />
       )}

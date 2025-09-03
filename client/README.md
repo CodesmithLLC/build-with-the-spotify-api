@@ -29,7 +29,7 @@ A simple React application that demonstrates interaction with Spotify's Web API 
 ## Architecture
 
 - **App.jsx**: Main component handling authentication state and routing
-- **HomePage.jsx**: Simple landing page with login button
+- **LoginPage.jsx**: Simple landing page with login button
 - **Dashboard.jsx**: Main dashboard with drawer navigation and data display
 - **CSS Modules**: Separate CSS files for each component with Spotify-themed styling
 

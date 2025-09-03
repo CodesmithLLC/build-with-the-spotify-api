@@ -5,21 +5,22 @@ import './Dashboard.css'
 const spotifyApiUrl =
   import.meta.env.VITE_SPOTIFY_API_BASE_URL || 'https://api.spotify.com'
 
+const timeRangeOptions = [
+  { value: 'short_term', label: 'last 4 weeks' },
+  { value: 'medium_term', label: 'last 6 months' },
+  { value: 'long_term', label: 'last year' },
+]
+
 const Dashboard = ({ accessToken, onLogout }) => {
   const [activeView, setActiveView] = useState('tracks')
   const [timeRange, setTimeRange] = useState('medium_term')
+
   const [topTracks, setTopTracks] = useState([])
   const [topArtists, setTopArtists] = useState([])
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [drawerOpen, setDrawerOpen] = useState(false)
-
-  const timeRangeOptions = [
-    { value: 'short_term', label: 'last 4 weeks' },
-    { value: 'medium_term', label: 'last 6 months' },
-    { value: 'long_term', label: 'all time' },
-  ]
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     const getUsersTopItems = async (type) => {
@@ -64,22 +65,25 @@ const Dashboard = ({ accessToken, onLogout }) => {
 
   const handleViewChange = (view) => {
     setActiveView(view)
-    setDrawerOpen(false)
+    setIsDrawerOpen(false)
   }
 
   const renderTrack = (track, index) => (
     <div key={track.id} className="data-item">
       <div className="item-rank">#{index + 1}</div>
+
       <img
         src={track.album.images[0]?.url}
         alt={track.album.name}
         className="item-image"
       />
+
       <div className="item-info">
         <h3>{track.name}</h3>
         <p>{track.artists.map((artist) => artist.name).join(', ')}</p>
         <span className="album-name">{track.album.name}</span>
       </div>
+
       <div className="item-popularity">
         <span className="popularity-score">{track.popularity}%</span>
       </div>
@@ -89,18 +93,21 @@ const Dashboard = ({ accessToken, onLogout }) => {
   const renderArtist = (artist, index) => (
     <div key={artist.id} className="data-item">
       <div className="item-rank">#{index + 1}</div>
+
       <img
-        src={artist.images[2]?.url || artist.images[0]?.url}
+        src={artist.images[0]?.url}
         alt={artist.name}
         className="item-image"
       />
+
       <div className="item-info">
         <h3>{artist.name}</h3>
-        {/* <p>{artist.genres.slice(0, 3).join(', ')}</p>
+        <p>{artist.genres.slice(0, 3).join(', ')}</p>
         <span className="followers">
           {artist.followers.total.toLocaleString()} followers
-        </span> */}
+        </span>
       </div>
+
       <div className="item-popularity">
         <span className="popularity-score">{artist.popularity}%</span>
       </div>
@@ -109,21 +116,27 @@ const Dashboard = ({ accessToken, onLogout }) => {
 
   const renderTopItems = () => {
     if (activeView === 'tracks') return topTracks.map(renderTrack)
-    else return topArtists.map(renderArtist)
+    if (activeView === 'artists') return topArtists.map(renderArtist)
   }
 
   return (
     <div className="dashboard">
       {/* drawer overlay (mobile) */}
-      {drawerOpen && (
-        <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
+      {isDrawerOpen && (
+        <div
+          className="drawer-overlay"
+          onClick={() => setIsDrawerOpen(false)}
+        />
       )}
 
       {/* drawer (mobile) */}
-      <div className={`drawer ${drawerOpen ? 'drawer-open' : ''}`}>
+      <div className={`drawer ${isDrawerOpen ? 'drawer-open' : ''}`}>
         <div className="drawer-header">
           <h2>spotify dashboard</h2>
-          <button className="drawer-close" onClick={() => setDrawerOpen(false)}>
+          <button
+            className="drawer-close"
+            onClick={() => setIsDrawerOpen(false)}
+          >
             x
           </button>
         </div>
@@ -158,20 +171,25 @@ const Dashboard = ({ accessToken, onLogout }) => {
       <div className="main-content">
         {/* dashboard header */}
         <header className="dashboard-header">
-          <button className="menu-btn" onClick={() => setDrawerOpen(true)}>
+          {/* hamburger button (mobile) */}
+          <button className="menu-btn" onClick={() => setIsDrawerOpen(true)}>
             ☰
           </button>
+
+          {/* title */}
           <h1>
             {activeView === 'tracks' ? 'your top tracks' : 'your top artists'}
           </h1>
+
+          {/* time range selector */}
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
             className="time-range-select"
           >
-            {timeRangeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {timeRangeOptions.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
               </option>
             ))}
           </select>

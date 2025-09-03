@@ -1,7 +1,8 @@
-import './HomePage.css'
-import spotifyIcon from '../../assets/spotify.svg'
+import spotifyIcon from '../../../assets/spotify.svg'
 
-const HomePage = ({ onLogin }) => {
+import './LoginPage.css'
+
+const LoginPage = ({ onLogin }) => {
   return (
     <div className="home-page">
       <div className="home-content">
@@ -21,4 +22,4 @@ const HomePage = ({ onLogin }) => {
   )
 }
 
-export default HomePage
+export default LoginPage
