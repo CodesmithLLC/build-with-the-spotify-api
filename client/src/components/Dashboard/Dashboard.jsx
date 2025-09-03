@@ -16,9 +16,9 @@ const Dashboard = ({ accessToken, onLogout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const timeRangeOptions = [
-    { value: 'short_term', label: 'Last 4 weeks' },
-    { value: 'medium_term', label: 'Last 6 months' },
-    { value: 'long_term', label: 'All time' },
+    { value: 'short_term', label: 'last 4 weeks' },
+    { value: 'medium_term', label: 'last 6 months' },
+    { value: 'long_term', label: 'all time' },
   ]
 
   useEffect(() => {
@@ -42,6 +42,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
       } catch (error) {
         console.error(error.message)
         setError(error.message)
+
         return []
       } finally {
         setIsLoading(false)
@@ -66,11 +67,11 @@ const Dashboard = ({ accessToken, onLogout }) => {
     setDrawerOpen(false)
   }
 
-  const renderTrackItem = (track, index) => (
+  const renderTrack = (track, index) => (
     <div key={track.id} className="data-item">
       <div className="item-rank">#{index + 1}</div>
       <img
-        src={track.album.images[2]?.url || track.album.images[0]?.url}
+        src={track.album.images[0]?.url}
         alt={track.album.name}
         className="item-image"
       />
@@ -85,7 +86,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
     </div>
   )
 
-  const renderArtistItem = (artist, index) => (
+  const renderArtist = (artist, index) => (
     <div key={artist.id} className="data-item">
       <div className="item-rank">#{index + 1}</div>
       <img
@@ -95,10 +96,10 @@ const Dashboard = ({ accessToken, onLogout }) => {
       />
       <div className="item-info">
         <h3>{artist.name}</h3>
-        <p>{artist.genres.slice(0, 3).join(', ')}</p>
+        {/* <p>{artist.genres.slice(0, 3).join(', ')}</p>
         <span className="followers">
           {artist.followers.total.toLocaleString()} followers
-        </span>
+        </span> */}
       </div>
       <div className="item-popularity">
         <span className="popularity-score">{artist.popularity}%</span>
@@ -106,54 +107,62 @@ const Dashboard = ({ accessToken, onLogout }) => {
     </div>
   )
 
+  const renderTopItems = () => {
+    if (activeView === 'tracks') return topTracks.map(renderTrack)
+    else return topArtists.map(renderArtist)
+  }
+
   return (
     <div className="dashboard">
-      {/* Drawer Overlay */}
+      {/* drawer overlay (mobile) */}
       {drawerOpen && (
         <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
       )}
 
-      {/* Drawer */}
+      {/* drawer (mobile) */}
       <div className={`drawer ${drawerOpen ? 'drawer-open' : ''}`}>
         <div className="drawer-header">
-          <h2>Spotify Dashboard</h2>
+          <h2>spotify dashboard</h2>
           <button className="drawer-close" onClick={() => setDrawerOpen(false)}>
             x
           </button>
         </div>
 
+        {/* sidebar (desktop) */}
         <nav className="drawer-nav">
           <button
             className={`nav-item ${activeView === 'tracks' ? 'active' : ''}`}
             onClick={() => handleViewChange('tracks')}
           >
             <span className="nav-icon">🎵</span>
-            Top Tracks
+            top tracks
           </button>
           <button
             className={`nav-item ${activeView === 'artists' ? 'active' : ''}`}
             onClick={() => handleViewChange('artists')}
           >
             <span className="nav-icon">🎤</span>
-            Top Artists
+            top artists
           </button>
         </nav>
 
+        {/* log out button */}
         <div className="drawer-footer">
           <button className="logout-btn" onClick={onLogout}>
-            Log out
+            log out
           </button>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* main content */}
       <div className="main-content">
+        {/* dashboard header */}
         <header className="dashboard-header">
           <button className="menu-btn" onClick={() => setDrawerOpen(true)}>
             ☰
           </button>
           <h1>
-            {activeView === 'tracks' ? 'Your Top Tracks' : 'Your Top Artists'}
+            {activeView === 'tracks' ? 'your top tracks' : 'your top artists'}
           </h1>
           <select
             value={timeRange}
@@ -168,6 +177,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
           </select>
         </header>
 
+        {/* top items list */}
         <div className="dashboard-content">
           {isLoading && (
             <div className="isLoading">Loading your Spotify data...</div>
@@ -175,11 +185,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
           {error && <div className="error">Error: {error}</div>}
 
           {!isLoading && !error && (
-            <div className="data-list">
-              {activeView === 'tracks'
-                ? topTracks.map(renderTrackItem)
-                : topArtists.map(renderArtistItem)}
-            </div>
+            <div className="data-list">{renderTopItems()}</div>
           )}
         </div>
       </div>
