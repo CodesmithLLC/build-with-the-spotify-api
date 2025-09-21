@@ -1,0 +1,11 @@
+{
+  "name": "vanilla-js-example",
+  "type": "module",
+  "scripts": {
+    "start": "node vanilla-js-example.js"
+  },
+  "author": "jaime de venecia",
+  "devDependencies": {
+    "dotenv": "^17.2.2"
+  }
+}
