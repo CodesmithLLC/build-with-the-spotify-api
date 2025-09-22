@@ -2,10 +2,10 @@
   "name": "vanilla-js-example",
   "type": "module",
   "scripts": {
-    "start": "node vanilla-js-example.js"
+    "start": "http-server -p 3000"
   },
   "author": "jaime de venecia",
   "devDependencies": {
-    "dotenv": "^17.2.2"
+    "http-server": "^14.1.1"
   }
 }
