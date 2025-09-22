@@ -21,8 +21,8 @@ router.get('/spotify-login', (_req, res) => {
   const params = new URLSearchParams({
     response_type: 'code',
     client_id,
-    scope,
     redirect_uri,
+    scope,
     state,
 
     // for demo purposes; ensures that spotify's auth dialog is always shown
