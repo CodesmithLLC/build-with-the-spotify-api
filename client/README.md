@@ -41,11 +41,3 @@ The app directly calls Spotify's Web API endpoints:
 - `/v1/me/top/artists` - User's top artists
 
 Both endpoints support `time_range` parameter for different time periods.
-
-## Development
-
-```bash
-npm run dev
-```
-
-The app will be available at http://localhost:5173 (or the next available port).

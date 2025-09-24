@@ -2,6 +2,9 @@
 
 A full-stack web application that lets users view their top Spotify tracks and artists using the Spotify Web API. Built with React (frontend) and Express.js (backend).
 
+_Note: `vanilla-js-example` is a simplified, standalone example of how to use the Spotify Web API in a vanilla JavaScript application._  
+_Please see its README for more details._
+
 ## Features
 
 - 🎵 **Spotify Authentication** - Secure OAuth 2.0 login with Spotify
@@ -36,16 +39,14 @@ build-with-the-spotify-api/
 │   │   ├── pages/           # React components (LoginPage, Dashboard)
 │   │   ├── App.jsx          # Main application component
 │   │   └── main.jsx         # Application entry point
-│   ├── package.json
-│   └── vite.config.js
+│   │
 ├── server/                  # Express.js backend API
 │   ├── src/
 │   │   ├── routes/          # API routes (auth, callbacks)
 │   │   ├── utils/           # Helper functions
 │   │   └── server.js        # Main server file
-│   └── package.json
-├── LICENSE.txt
-└── README.md
+│   │
+├── vanilla-js-example/      # Vanilla JavaScript example of how to use the Spotify Web API
 ```
 
 ## Prerequisites
@@ -53,6 +54,7 @@ build-with-the-spotify-api/
 - **Node.js** (v16 or higher)
 - **npm** or **yarn**
 - **Spotify Developer Account** - [Create one here](https://developer.spotify.com/)
+- **Basic proficiency with running commands in the terminal**
 
 ## Setup Instructions
 
@@ -63,16 +65,19 @@ git clone <repository-url>
 cd build-with-the-spotify-api
 ```
 
-### 2. Spotify App Configuration
+### 2. Configure your Spotify App
 
 1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
 2. Create a new app
 3. Note your `Client ID` and `Client Secret`
-4. Add `http://127.0.0.1:3000/callback` to your Redirect URIs
+4. Add `http://127.0.0.1:3000/callback` to your Redirect URIs  
+   a. (Optionally add `http://127.0.0.1:5173` to your Redirect URIs to use the vanilla JavaScript example)
 
-### 3. Environment Variables
+### 3. Create Environment Variables
 
-Create an `.env` file in the `/server` directory:
+Create an `.env` file in the `/server` directory. Refer to `server/.env.example` for the correct format.
+
+Your `server/.env` file should look like this:
 
 ```env
 PORT=3000
@@ -84,7 +89,9 @@ SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/callback
 CLIENT_URL=http://localhost:5173
 ```
 
-Create an `.env` file in the `/client` directory:
+Create an `.env` file in the `/client` directory. Refer to `client/.env.example` for the correct format.
+
+Your `client/.env` file should look like this:
 
 ```env
 VITE_SERVER_URL=http://localhost:3000
@@ -107,9 +114,7 @@ cd client
 npm install
 ```
 
-## Running the Application
-
-### Development Mode
+## Running the Application in Development Mode
 
 **Start the backend server:**
 
@@ -118,33 +123,16 @@ cd server
 npm run dev
 ```
 
-Server will run on `http://localhost:3000`
+The server will run on `http://localhost:3000`.
 
-**Start the frontend development server:**
+**Start the frontend development server (you will need to open a new terminal window for this):**
 
 ```bash
 cd client
 npm run dev
 ```
 
-Client will run on `http://localhost:5173`
-
-### Production Mode
-
-**Build and start the backend:**
-
-```bash
-cd server
-npm start
-```
-
-**Build and preview the frontend:**
-
-```bash
-cd client
-npm run build
-npm run preview
-```
+The client will run on `http://localhost:5173`.
 
 ## Testing
 
@@ -173,14 +161,6 @@ npm run test:coverage
 - `GET /api/spotify-login` - Initiates Spotify OAuth flow
 - `GET /callback` - Handles Spotify OAuth callback
 - `GET /` - Health check endpoint
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 

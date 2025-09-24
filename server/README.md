@@ -48,26 +48,6 @@ A Node.js Express server that handles Spotify OAuth authentication for the clien
 - **`routes/apiRouter.js`**: Handles authentication initiation and OAuth redirect
 - **`routes/callbackRouter.js`**: Manages OAuth callback processing and token exchange
 
-## Development
-
-### Installation
-
-```bash
-npm install
-```
-
-### Running the Server
-
-```bash
-# Development mode with auto-reload
-npm run dev
-
-# Production mode
-npm start
-```
-
-The server will be available at `http://localhost:3000` (or the `PORT` specified in your `.env` file).
-
 ## API Integration
 
 ### OAuth Scopes
