@@ -6,7 +6,7 @@ const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
 const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI
 
 // main function that initializes the authentication + authorization flow
-async function initializeApp() {
+async function main() {
   const urlParams = new URLSearchParams(window.location.search)
   const authorizationCode = urlParams.get('code')
 
@@ -19,7 +19,7 @@ async function initializeApp() {
     populateUI(profile)
   }
 }
-initializeApp()
+main()
 
 // step 1: obtain authorization code from spotify's authorization endpoint
 function obtainAuthorizationCode(clientId, redirectUri) {
