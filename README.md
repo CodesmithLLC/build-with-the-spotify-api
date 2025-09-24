@@ -134,28 +134,6 @@ npm run dev
 
 The client will run on `http://localhost:5173`.
 
-## Testing
-
-**Run backend tests:**
-
-```bash
-cd server
-npm test
-```
-
-**Run frontend tests:**
-
-```bash
-cd client
-npm test
-```
-
-**Run tests with coverage:**
-
-```bash
-npm run test:coverage
-```
-
 ## API Endpoints
 
 - `GET /api/spotify-login` - Initiates Spotify OAuth flow

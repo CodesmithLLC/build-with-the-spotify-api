@@ -9,7 +9,6 @@ A Node.js Express server that handles Spotify OAuth authentication for the clien
 - **Token Exchange**: Secure handling of authorization codes and access token retrieval
 - **Error Handling**: Comprehensive error handling with proper HTTP status codes
 - **Environment Configuration**: Secure environment variable management for API credentials
-- **Testing Suite**: Complete test coverage with Vitest and Supertest
 
 ## How it works
 
