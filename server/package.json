@@ -5,10 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "dev": "nodemon src/server.js"
   },
   "author": "Jaime de Venecia",
   "license": "MIT",
@@ -18,9 +15,6 @@
   },
   "devDependencies": {
     "dotenv": "^17.2.1",
-    "nodemon": "^3.1.10",
-    "vitest": "^2.1.8",
-    "supertest": "^7.0.0",
-    "@vitest/coverage-v8": "^2.1.8"
+    "nodemon": "^3.1.10"
   }
 }
