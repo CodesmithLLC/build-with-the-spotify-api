@@ -68,16 +68,20 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
 
 // step 3: fetch user profile data from spotify's user profile endpoint
 async function fetchProfile(accessToken) {
-  const response = await fetch(
-    'https://api.spotify.com/v1/me',
-    {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${accessToken}` }
-    }
-  )
-  const data = await response.json()
-
-  return data
+  try {
+    const response = await fetch(
+      'https://api.spotify.com/v1/me',
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${accessToken}` }
+      }
+    )
+    const data = await response.json()
+  
+    return data
+  } catch (error) {
+    console.error(error.message)
+  }
 }
 
 // step 4: use DOM manipulation to update the UI with our profile data
