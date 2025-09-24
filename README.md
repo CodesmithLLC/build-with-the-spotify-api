@@ -2,8 +2,7 @@
 
 A full-stack web application that lets users view their top Spotify tracks and artists using the Spotify Web API. Built with React (frontend) and Express.js (backend).
 
-_Note: `vanilla-js-example` is a simplified, standalone example of how to use the Spotify Web API in a vanilla JavaScript application._  
-_Please see its README for more details._
+_**Note: `vanilla-js-example` is a simplified, standalone example of how to use the Spotify Web API to fetch a user's profile data in a vanilla JavaScript application. Please see its README for more details.**_
 
 ## Features
 
@@ -20,7 +19,6 @@ _Please see its README for more details._
 
 - **React 19** - Modern React with hooks
 - **Vite** - Fast development and build tool
-- **Vitest** - Unit testing framework
 - **ESLint** - Code linting and formatting
 
 ### Backend (`/server`)
@@ -28,7 +26,6 @@ _Please see its README for more details._
 - **Express.js** - Web server framework
 - **Node.js** - JavaScript runtime
 - **CORS** - Cross-origin resource sharing
-- **Vitest** - API testing
 
 ## Project Structure
 
@@ -54,7 +51,7 @@ build-with-the-spotify-api/
 - **Node.js** (v16 or higher)
 - **npm** or **yarn**
 - **Spotify Developer Account** - [Create one here](https://developer.spotify.com/)
-- **Basic proficiency with running commands in the terminal**
+- Basic proficiency with running commands in the terminal
 
 ## Setup Instructions
 
@@ -71,7 +68,7 @@ cd build-with-the-spotify-api
 2. Create a new app
 3. Note your `Client ID` and `Client Secret`
 4. Add `http://127.0.0.1:3000/callback` to your Redirect URIs  
-   a. (Optionally add `http://127.0.0.1:5173` to your Redirect URIs to use the vanilla JavaScript example)
+   a. Optionally, add `http://127.0.0.1:5173` to your Redirect URIs to use the vanilla JavaScript example
 
 ### 3. Create Environment Variables
 
