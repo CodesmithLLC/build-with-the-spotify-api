@@ -69,47 +69,47 @@ const Dashboard = ({ accessToken, onLogout }) => {
   }
 
   const renderTrack = (track, index) => (
-    <div key={track.id} className="data-item">
-      <div className="item-rank">#{index + 1}</div>
+    <div key={track.id} className='data-item'>
+      <div className='item-rank'>#{index + 1}</div>
 
       <img
         src={track.album.images[0]?.url}
         alt={track.album.name}
-        className="item-image"
+        className='item-image'
       />
 
-      <div className="item-info">
+      <div className='item-info'>
         <h3>{track.name}</h3>
         <p>{track.artists.map((artist) => artist.name).join(', ')}</p>
-        <span className="album-name">{track.album.name}</span>
+        <span className='album-name'>{track.album.name}</span>
       </div>
 
-      <div className="item-popularity">
-        <span className="popularity-score">{track.popularity}%</span>
+      <div className='item-popularity'>
+        <span className='popularity-score'>{track.popularity}%</span>
       </div>
     </div>
   )
 
   const renderArtist = (artist, index) => (
-    <div key={artist.id} className="data-item">
-      <div className="item-rank">#{index + 1}</div>
+    <div key={artist.id} className='data-item'>
+      <div className='item-rank'>#{index + 1}</div>
 
       <img
         src={artist.images[0]?.url}
         alt={artist.name}
-        className="item-image"
+        className='item-image'
       />
 
-      <div className="item-info">
+      <div className='item-info'>
         <h3>{artist.name}</h3>
         <p>{artist.genres.slice(0, 3).join(', ')}</p>
-        <span className="followers">
+        <span className='followers'>
           {artist.followers.total.toLocaleString()} followers
         </span>
       </div>
 
-      <div className="item-popularity">
-        <span className="popularity-score">{artist.popularity}%</span>
+      <div className='item-popularity'>
+        <span className='popularity-score'>{artist.popularity}%</span>
       </div>
     </div>
   )
@@ -120,21 +120,21 @@ const Dashboard = ({ accessToken, onLogout }) => {
   }
 
   return (
-    <div className="dashboard">
+    <div className='dashboard'>
       {/* drawer overlay (mobile) */}
       {isDrawerOpen && (
         <div
-          className="drawer-overlay"
+          className='drawer-overlay'
           onClick={() => setIsDrawerOpen(false)}
         />
       )}
 
       {/* drawer (mobile) */}
       <div className={`drawer ${isDrawerOpen ? 'drawer-open' : ''}`}>
-        <div className="drawer-header">
+        <div className='drawer-header'>
           <h2>spotify dashboard</h2>
           <button
-            className="drawer-close"
+            className='drawer-close'
             onClick={() => setIsDrawerOpen(false)}
           >
             x
@@ -142,37 +142,37 @@ const Dashboard = ({ accessToken, onLogout }) => {
         </div>
 
         {/* sidebar (desktop) */}
-        <nav className="drawer-nav">
+        <nav className='drawer-nav'>
           <button
             className={`nav-item ${activeView === 'tracks' ? 'active' : ''}`}
             onClick={() => handleViewChange('tracks')}
           >
-            <span className="nav-icon">🎵</span>
+            <span className='nav-icon'>🎵</span>
             top tracks
           </button>
           <button
             className={`nav-item ${activeView === 'artists' ? 'active' : ''}`}
             onClick={() => handleViewChange('artists')}
           >
-            <span className="nav-icon">🎤</span>
+            <span className='nav-icon'>🎤</span>
             top artists
           </button>
         </nav>
 
         {/* log out button */}
-        <div className="drawer-footer">
-          <button className="logout-btn" onClick={onLogout}>
+        <div className='drawer-footer'>
+          <button className='logout-btn' onClick={onLogout}>
             log out
           </button>
         </div>
       </div>
 
       {/* main content */}
-      <div className="main-content">
+      <div className='main-content'>
         {/* dashboard header */}
-        <header className="dashboard-header">
+        <header className='dashboard-header'>
           {/* hamburger button (mobile) */}
-          <button className="menu-btn" onClick={() => setIsDrawerOpen(true)}>
+          <button className='menu-btn' onClick={() => setIsDrawerOpen(true)}>
             ☰
           </button>
 
@@ -185,7 +185,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="time-range-select"
+            className='time-range-select'
           >
             {timeRangeOptions.map(({ value, label }) => (
               <option key={value} value={value}>
@@ -196,14 +196,14 @@ const Dashboard = ({ accessToken, onLogout }) => {
         </header>
 
         {/* top items list */}
-        <div className="dashboard-content">
+        <div className='dashboard-content'>
           {isLoading && (
-            <div className="isLoading">Loading your Spotify data...</div>
+            <div className='isLoading'>Loading your Spotify data...</div>
           )}
-          {error && <div className="error">Error: {error}</div>}
+          {error && <div className='error'>Error: {error}</div>}
 
           {!isLoading && !error && (
-            <div className="data-list">{renderTopItems()}</div>
+            <div className='data-list'>{renderTopItems()}</div>
           )}
         </div>
       </div>

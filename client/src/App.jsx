@@ -5,7 +5,7 @@ import Dashboard from './pages/Dashboard'
 
 const serverUrl = import.meta.env.VITE_SERVER_URL
 
-function App() {
+const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [accessToken, setAccessToken] = useState(null)
 
@@ -67,7 +67,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className='app'>
       {!isAuthenticated ? (
         <LoginPage onLogin={handleLogin} />
       ) : (

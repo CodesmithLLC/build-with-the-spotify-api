@@ -43,7 +43,7 @@ build-with-the-spotify-api/
 │   │   ├── utils/           # Helper functions
 │   │   └── server.js        # Main server file
 │   │
-├── vanilla-js-example/      # Vanilla JavaScript example of how to use the Spotify Web API
+├── vanilla-js-example/      # Standalone vanilla JavaScript example of how to use the Spotify Web API
 ```
 
 ## Prerequisites
@@ -68,7 +68,7 @@ cd build-with-the-spotify-api
 2. Create a new app
 3. Note your `Client ID` and `Client Secret`
 4. Add `http://127.0.0.1:3000/callback` to your Redirect URIs  
-   a. Optionally, add `http://127.0.0.1:5173` to your Redirect URIs to use the vanilla JavaScript example
+   a. Optionally, add `http://127.0.0.1:5173/callback` to your Redirect URIs to use the vanilla JavaScript example
 
 ### 3. Create Environment Variables
 
@@ -113,23 +113,13 @@ npm install
 
 ## Running the Application in Development Mode
 
-**Start the backend server:**
-
 ```bash
-cd server
 npm run dev
 ```
 
-The server will run on `http://localhost:3000`.
+This will run the frontend and backend development servers concurrently in one terminal instance.
 
-**Start the frontend development server (you will need to open a new terminal window for this):**
-
-```bash
-cd client
-npm run dev
-```
-
-The client will run on `http://localhost:5173`.
+The client (frontend) will run on `http://localhost:5173` and the server/API (backend) will run on `http://localhost:3000`.
 
 ## API Endpoints
 

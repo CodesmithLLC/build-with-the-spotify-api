@@ -28,13 +28,11 @@ router.get('/', async (req, res) => {
       'https://accounts.spotify.com/api/token',
       {
         method: 'POST',
-
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization:
             'Basic ' + createBase64EncodedString(client_id, client_secret),
         },
-
         body: new URLSearchParams({
           code,
           redirect_uri,
@@ -52,10 +50,9 @@ router.get('/', async (req, res) => {
       access_token,
       expires_in,
     }).toString()
-
     res.redirect(client_url + '?' + accessTokenParams)
   } catch (error) {
-    console.error(error.message)
+    console.error(`❌ Error in /callback: ${error.message}`)
 
     const errorParams = new URLSearchParams({ error: error.message }).toString()
     res.redirect(client_url + '?' + errorParams)

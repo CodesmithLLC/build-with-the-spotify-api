@@ -14,7 +14,7 @@ router.get('/spotify-login', (_req, res) => {
   // https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
   const scope = 'user-top-read'
 
-  // https://stackoverflow.com/questions/26132066/what-is-the-purpose-of-the-state-parameter-in-oauth-authorization-request
+  // best practice for preventing CSRF attacks
   const state = generateRandomString(16)
 
   // create query string with appropriate parameters

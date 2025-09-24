@@ -1,0 +1,25 @@
+{
+  "name": "build-with-the-spotify-api",
+  "version": "0.1.0",
+  "description": "A full-stack web application that lets users view their top Spotify tracks and artists using the Spotify Web API.",
+  "scripts": {
+    "dev": "concurrently \"cd client && vite --clearScreen=false\" \"cd server && nodemon src/server.js\" --names \"client,api\" --prefix-colors \"green,blue\"",
+    "dev:client": "cd client && vite --clearScreen=false",
+    "dev:api": "cd server && nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdvplus/build-with-the-spotify-api.git"
+  },
+  "author": "Jaime de Venecia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jdvplus/build-with-the-spotify-api/issues"
+  },
+  "homepage": "https://github.com/jdvplus/build-with-the-spotify-api#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10",
+    "vite": "^7.1.7"
+  }
+}

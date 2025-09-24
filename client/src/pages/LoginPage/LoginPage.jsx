@@ -1,11 +1,10 @@
-import spotifyIcon from '../../../assets/spotify.svg'
-
 import './LoginPage.css'
+import spotifyIcon from '../../../assets/spotify.svg'
 
 const LoginPage = ({ onLogin }) => {
   return (
-    <div className="home-page">
-      <div className="home-content">
+    <div className='home-page'>
+      <div className='home-content'>
         <h1>spotify dashboard</h1>
 
         <p>
@@ -13,8 +12,8 @@ const LoginPage = ({ onLogin }) => {
           your top tracks & artists
         </p>
 
-        <button className="spotify-login-btn" onClick={onLogin}>
-          <img src={spotifyIcon} alt="Spotify" width="24" height="24" />
+        <button className='spotify-login-btn' onClick={onLogin}>
+          <img src={spotifyIcon} alt='Spotify' width='24' height='24' />
           log into spotify
         </button>
       </div>
