@@ -2,7 +2,7 @@
 
 A full-stack web application that lets users view their top Spotify tracks and artists using the Spotify Web API. Built with React (frontend) and Express.js (backend).
 
-_**Note: `vanilla-js-example` is a simplified, standalone example of how to use the Spotify Web API to fetch a user's profile data in a vanilla JavaScript application. Please see its README for more details.**_
+_**Note: `vanilla-js-example` is a simplified, standalone example of how to use the Spotify Web API to fetch a user's profile data and top tracks/artists in a purely vanilla JavaScript application. Please see its README for more details.**_
 
 ## Features
 

@@ -1,11 +1,12 @@
 # Interacting with the Spotify Web API using vanilla JavaScript
 
-This is a simple web application that demonstrates how to interact with the Spotify Web API using vanilla JavaScript. This example fetches and displays user profile information after authentication.
+This is a simple web application that demonstrates how to interact with the Spotify Web API using vanilla JavaScript. This example fetches and displays a user's profile information and top tracks/artists after authentication.
 
 ## Features
 
 - **Spotify Authentication**: Implements OAuth 2.0 [Authorization Code Flow](https://developer.spotify.com/documentation/web-api/tutorials/code-flow)
 - **User Profile Display**: Shows user's display name, avatar, ID, and Spotify URI
+- **Top Tracks/Artists Display**: Shows a user's top tracks and artists
 - **Vanilla JavaScript**: No frameworks or libraries required
 - **Modern ES6+**: Uses modern JavaScript features like async/await and modules
 - **Vite Development Server**: Fast development with hot module replacement
