@@ -6,35 +6,49 @@
     <link rel="icon" type="image/svg+xml" href="/spotify.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- import 'Inter' font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
     <title>My Spotify Profile</title>
   </head>
 
   <body>
-    <h1>My Spotify Profile</h1>
+    <div class="container">
+      <h1>My Spotify Profile</h1>
 
-    <section id="profile">
-      <h2>Logged in as <span id="display-name"></span></h2>
+      <section id="profile">
+        <h2>Logged in as <span id="display-name"></span></h2>
 
-      <img id="avatar" width="200" src="#" />
+        <img id="avatar" width="200" src="#" />
 
-      <ul>
-        <li>User ID: <span id="user-id"></span></li>
-        <li>Spotify URI: <a id="profile-uri" href="#" target="_blank"></a></li>
-        <li>
-          Profile Image: <a id="profile-image" href="#" target="_blank"></a>
-        </li>
-      </ul>
-    </section>
+        <ul>
+          <li>User ID: <span id="user-id"></span></li>
+          <li>
+            Spotify URI: <a id="profile-uri" href="#" target="_blank"></a>
+          </li>
+          <li>
+            Profile Image: <a id="profile-image" href="#" target="_blank"></a>
+          </li>
+        </ul>
+      </section>
 
-    <section id="top-tracks">
-      <h2>Top Tracks</h2>
-      <div id="top-tracks-container"></div>
-    </section>
+      <section id="top-tracks">
+        <h2>Top Tracks</h2>
+        <div id="top-tracks-container"></div>
+      </section>
 
-    <section id="top-artists">
-      <h2>Top Artists</h2>
-      <div id="top-artists-container"></div>
-    </section>
+      <section id="top-artists">
+        <h2>Top Artists</h2>
+        <div id="top-artists-container"></div>
+      </section>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>
