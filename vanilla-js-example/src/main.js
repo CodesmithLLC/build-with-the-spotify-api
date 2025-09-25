@@ -23,7 +23,13 @@ async function main() {
 
     // steps 3 & 4
     const profile = await fetchProfile(accessToken)
-    populateUI(profile)
+    populateUIWithProfileData(profile)
+
+    // steps 5 & 6: fetch top items and render them to the UI
+    const topTwentyTracks = await fetchTopItems('tracks', 'medium_term', accessToken)
+    const topTwentyArtists = await fetchTopItems('artists', 'medium_term', accessToken)
+    populateUIWithTopItems(topTwentyTracks, 'top-tracks-container')
+    populateUIWithTopItems(topTwentyArtists, 'top-artists-container')
   }
 }
 
@@ -38,8 +44,8 @@ function obtainAuthorizationCode(clientId, redirectUri) {
     client_id: clientId,
     redirect_uri: redirectUri,
     state: state,
-    show_dialog: 'true',
-    // (^ for demo purposes; ensures that spotify's auth dialog is always shown)
+    show_dialog: 'true', // (for demo purposes)
+    scope: 'user-top-read' // gives our app permission to read the user's top tracks and artists
   }).toString()
 
   document.location = 'https://accounts.spotify.com/authorize?' + urlParams
@@ -60,7 +66,7 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
         body: new URLSearchParams({
           code: authorizationCode,
           redirect_uri: redirectUri,
-          grant_type: 'authorization_code',
+          grant_type: 'authorization_code'
         })
       }
     )
@@ -92,7 +98,7 @@ async function fetchProfile(accessToken) {
 }
 
 // step 4: use DOM manipulation to update the UI with our profile data
-function populateUI(profile) {
+function populateUIWithProfileData(profile) {
   const displayNameElement = document.getElementById('display-name')
   displayNameElement.innerText = profile.display_name
 
@@ -109,6 +115,54 @@ function populateUI(profile) {
   const profileImageLinkElement = document.getElementById('profile-image')
   profileImageLinkElement.innerText = profile.images[0].url
   profileImageLinkElement.setAttribute('href', profile.images[0].url)
+}
+
+// step 5: fetch top items (tracks or artists) based on a given time range
+async function fetchTopItems(type, timeRange, accessToken) {
+  try {
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=20`,
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${accessToken}` }
+      }
+    )
+    const data = await response.json()
+
+    const results = []
+
+    if (type === 'tracks') {
+      for (const track of data.items) {
+        results.push(`${track.name} by ${track.artists[0].name}`)
+      }
+    } else if (type === 'artists') {
+      for (const artist of data.items) {
+        results.push(artist.name)
+      }
+    }
+
+    return results
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
+// step 6: populate UI with top items as a bulleted list
+function populateUIWithTopItems(items, elementId) {
+  const container = document.getElementById(elementId)
+  
+  // create unordered list html element
+  const unorderedList = document.createElement('ul')
+  
+  // add each item as a list item
+  items.forEach((item) => {
+    const listItem = document.createElement('li')
+    listItem.textContent = item
+    unorderedList.appendChild(listItem)
+  })
+  
+  // add the list to the container
+  container.appendChild(unorderedList)
 }
 
 /* helper functions */
