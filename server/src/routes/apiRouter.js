@@ -11,13 +11,10 @@ router.get('/', (_req, res) => {
 })
 
 router.get('/spotify-login', (_req, res) => {
-  // https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
+  const state = generateRandomString(16)
   const scope = 'user-top-read'
 
-  // best practice for preventing CSRF attacks
-  const state = generateRandomString(16)
-
-  // create query string with appropriate parameters
+  // create query string with necessary parameters
   const params = new URLSearchParams({
     response_type: 'code',
     client_id,
