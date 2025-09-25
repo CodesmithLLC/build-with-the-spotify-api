@@ -1,25 +1,31 @@
 // prettier-ignore-file
 
-// secure credentials imported from .env file
+// import secure credentials from .env file
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID
 const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
 const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI
 
+// step 0: invoke the function that initiates this entire process!
+main()
+
 // main function that initializes the authentication + authorization flow
 async function main() {
+  // obtain authorization code from URL parameters
   const urlParams = new URLSearchParams(window.location.search)
   const authorizationCode = urlParams.get('code')
 
   if (authorizationCode === null) {
+    // step 1
     obtainAuthorizationCode(clientId, redirectUri)
   } else {
+    // step 2
     const accessToken = await getAccessToken(clientId, clientSecret, redirectUri, authorizationCode)
 
+    // steps 3 & 4
     const profile = await fetchProfile(accessToken)
     populateUI(profile)
   }
 }
-main()
 
 // step 1: obtain authorization code from spotify's authorization endpoint
 function obtainAuthorizationCode(clientId, redirectUri) {
@@ -77,6 +83,7 @@ async function fetchProfile(accessToken) {
       }
     )
     const data = await response.json()
+    // console.log('profile data:', data)
   
     return data
   } catch (error) {
