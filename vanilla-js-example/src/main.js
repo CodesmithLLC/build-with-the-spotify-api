@@ -133,7 +133,7 @@ async function fetchTopItems(type, timeRange, accessToken) {
 
     if (type === 'tracks') {
       for (const track of data.items) {
-        results.push(`${track.name} by ${track.artists[0].name}`)
+        results.push(`"${track.name}" by ${track.artists[0].name}`)
       }
     } else if (type === 'artists') {
       for (const artist of data.items) {
