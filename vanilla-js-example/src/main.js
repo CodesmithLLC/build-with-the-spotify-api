@@ -1,4 +1,5 @@
 // prettier-ignore-file
+// (^ this directive comment prevents Prettier from formatting this file)
 
 // import secure credentials from .env file
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID
@@ -35,19 +36,20 @@ async function main() {
 
 // step 1: obtain authorization code from spotify's authorization endpoint
 function obtainAuthorizationCode(clientId, redirectUri) {
-  // best practice for preventing CSRF attacks
-  const state = generateRandomString(16)
+  const state = generateRandomString(16) // best practice for preventing CSRF attacks
+  const scope = 'user-top-read' // gives our app permission to read the user's top tracks and artists
 
-  // create query string with appropriate parameters
+  // create query string with necessary parameters
   const urlParams = new URLSearchParams({
     response_type: 'code',
     client_id: clientId,
     redirect_uri: redirectUri,
     state: state,
-    show_dialog: 'true', // (for demo purposes)
-    scope: 'user-top-read' // gives our app permission to read the user's top tracks and artists
+    scope: scope,
+    show_dialog: 'true' // (for demo purposes)
   }).toString()
 
+  // redirect browser to spotify's authorization endpoint
   document.location = 'https://accounts.spotify.com/authorize?' + urlParams
 }
 
@@ -60,7 +62,7 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded', // spotify's token endpoint expects form-encoded data
           Authorization: 'Basic ' + createBase64EncodedString(clientId, clientSecret)
         },
         body: new URLSearchParams({
@@ -81,6 +83,7 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
 // step 3: fetch user profile data from spotify's user profile endpoint
 async function fetchProfile(accessToken) {
   try {
+    // make 'GET' HTTP request to spotify's user profile endpoint
     const response = await fetch(
       'https://api.spotify.com/v1/me',
       {
@@ -119,6 +122,7 @@ function populateUIWithProfileData(profile) {
 
 // step 5: fetch top items (tracks or artists) based on a given time range
 async function fetchTopItems(type, timeRange, accessToken) {
+  // make 'GET' HTTP request to spotify's "top items" endpoint
   try {
     const response = await fetch(
       `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=20`,
@@ -129,8 +133,8 @@ async function fetchTopItems(type, timeRange, accessToken) {
     )
     const data = await response.json()
 
+    // dynamically generate the results array based on the type of top items we're fetching
     const results = []
-
     if (type === 'tracks') {
       for (const track of data.items) {
         results.push(`"${track.name}" by ${track.artists[0].name}`)
@@ -154,18 +158,24 @@ function populateUIWithTopItems(items, elementId) {
   // create unordered list html element
   const unorderedList = document.createElement('ul')
   
-  // add each item as a list item
+  // create a list item for each item and append it to the unordered list
   items.forEach((item) => {
     const listItem = document.createElement('li')
     listItem.textContent = item
     unorderedList.appendChild(listItem)
   })
   
-  // add the list to the container
+  // append the unordered list to the specified container
   container.appendChild(unorderedList)
 }
 
-/* helper functions */
+// ------------------------------------------------------------------------------------------------ //
+
+/*
+  helper functions:
+  1. generateRandomString: generates a random string of a given length
+  2. createBase64EncodedString: creates a Base64-encoded ASCII string from a binary string
+*/
 
 function generateRandomString(length) {
   let randomString = ''
@@ -181,9 +191,8 @@ function generateRandomString(length) {
 function createBase64EncodedString(clientId, clientSecret) {
   const basicAuthString = clientId + ':' + clientSecret
 
-  // create a Base64-encoded ASCII string from a binary string
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa
-  const base64EncodedString = btoa(basicAuthString)
+  const base64EncodedString = window.btoa(basicAuthString)
 
   return base64EncodedString
 }
