@@ -27,8 +27,8 @@ async function main() {
     populateUIWithProfileData(profile)
 
     // steps 5 & 6: fetch top items and render them to the UI
-    const topTwentyTracks = await fetchTopItems('tracks', 'medium_term', accessToken)
-    const topTwentyArtists = await fetchTopItems('artists', 'medium_term', accessToken)
+    const topTwentyTracks = await fetchTopItems('tracks', 'medium_term', 20, accessToken)
+    const topTwentyArtists = await fetchTopItems('artists', 'medium_term', 20, accessToken)
     populateUIWithTopItems(topTwentyTracks, 'top-tracks-container')
     populateUIWithTopItems(topTwentyArtists, 'top-artists-container')
   }
@@ -120,12 +120,12 @@ function populateUIWithProfileData(profile) {
   profileImageLinkElement.setAttribute('href', profile.images[0].url)
 }
 
-// step 5: fetch top items (tracks or artists) based on a given time range
-async function fetchTopItems(type, timeRange, accessToken) {
-  // make 'GET' HTTP request to spotify's "top items" endpoint
+// step 5: fetch top items (tracks or artists) based on a given time range and limit amount
+async function fetchTopItems(type, timeRange, itemsToReturn, accessToken) {
   try {
+    // make 'GET' HTTP request to spotify's "top items" endpoint
     const response = await fetch(
-      `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=20`,
+      `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=${itemsToReturn}`,
       {
         method: 'GET',
         headers: { Authorization: `Bearer ${accessToken}` }
