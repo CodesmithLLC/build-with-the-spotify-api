@@ -55,23 +55,26 @@ function obtainAuthorizationCode(clientId, redirectUri) {
 
 // step 2: exchange authorization code for access token
 async function getAccessToken(clientId, clientSecret, redirectUri, authorizationCode) {
+  const accessTokenEndpoint = 'https://accounts.spotify.com/api/token'
+
+  const headersObject = {
+    'Content-Type': 'application/x-www-form-urlencoded', // spotify's token endpoint expects form-encoded data
+    Authorization: 'Basic ' + createBase64EncodedString(clientId, clientSecret)
+  }
+  const requestBody = new URLSearchParams({
+    code: authorizationCode,
+    redirect_uri: redirectUri,
+    grant_type: 'authorization_code'
+  })
+  const accessTokenOptions = {
+    method: 'POST',
+    headers: headersObject,
+    body: requestBody
+  }
+
   try {
     // make 'POST' HTTP request to spotify's token endpoint
-    const response = await fetch(
-      'https://accounts.spotify.com/api/token',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // spotify's token endpoint expects form-encoded data
-          Authorization: 'Basic ' + createBase64EncodedString(clientId, clientSecret)
-        },
-        body: new URLSearchParams({
-          code: authorizationCode,
-          redirect_uri: redirectUri,
-          grant_type: 'authorization_code'
-        })
-      }
-    )
+    const response = await fetch(accessTokenEndpoint, accessTokenOptions)
     const data = await response.json()
 
     return data.access_token
@@ -82,18 +85,18 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
 
 // step 3: fetch user profile data from spotify's user profile endpoint
 async function fetchProfile(accessToken) {
+  const profileEndpoint = 'https://api.spotify.com/v1/me'
+  const profileOptions = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` }
+  }
+
   try {
     // make 'GET' HTTP request to spotify's user profile endpoint
-    const response = await fetch(
-      'https://api.spotify.com/v1/me',
-      {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${accessToken}` }
-      }
-    )
+    const response = await fetch(profileEndpoint, profileOptions)
     const data = await response.json()
     // console.log('profile data:', data)
-  
+
     return data
   } catch (error) {
     console.error(error.message)
@@ -122,15 +125,15 @@ function populateUIWithProfileData(profile) {
 
 // step 5: fetch top items (tracks or artists) based on a given time range and limit amount
 async function fetchTopItems(type, timeRange, itemsToReturn, accessToken) {
+  const topItemsEndpoint = `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=${itemsToReturn}`
+  const topItemsOptions = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` }
+  }
+
   try {
     // make 'GET' HTTP request to spotify's "top items" endpoint
-    const response = await fetch(
-      `https://api.spotify.com/v1/me/top/${type}?time_range=${timeRange}&limit=${itemsToReturn}`,
-      {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${accessToken}` }
-      }
-    )
+    const response = await fetch(topItemsEndpoint, topItemsOptions)
     const data = await response.json()
 
     // dynamically generate the results array based on the type of top items we're fetching
@@ -154,17 +157,17 @@ async function fetchTopItems(type, timeRange, itemsToReturn, accessToken) {
 // step 6: populate UI with top items as a bulleted list
 function populateUIWithTopItems(items, elementId) {
   const container = document.getElementById(elementId)
-  
+
   // create unordered list html element
   const unorderedList = document.createElement('ul')
-  
+
   // create a list item for each item and append it to the unordered list
   items.forEach((item) => {
     const listItem = document.createElement('li')
     listItem.textContent = item
     unorderedList.appendChild(listItem)
   })
-  
+
   // append the unordered list to the specified container
   container.appendChild(unorderedList)
 }
