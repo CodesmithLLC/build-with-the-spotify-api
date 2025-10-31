@@ -79,7 +79,7 @@ const Dashboard = ({ accessToken, onLogout }) => {
       />
 
       <div className='item-info'>
-        <h3>{track.name}</h3>
+        <h3><a className="link" target="_blank" href={`https://open.spotify.com/track/${track.id}`}>{track.name}</a></h3>
         <p>{track.artists.map((artist) => artist.name).join(', ')}</p>
         <span className='album-name'>{track.album.name}</span>
       </div>

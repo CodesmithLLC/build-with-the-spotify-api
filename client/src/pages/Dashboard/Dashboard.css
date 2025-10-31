@@ -317,3 +317,8 @@
     height: 50px;
   }
 }
+
+.link {
+    color: #1db954;
+    text-decoration: none;
+}
