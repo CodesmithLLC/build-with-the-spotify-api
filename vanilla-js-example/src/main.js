@@ -53,8 +53,7 @@ function obtainAuthorizationCode(clientId, redirectUri) {
 // step 2: exchange authorization code for access token
 async function getAccessToken(clientId, clientSecret, redirectUri, authorizationCode) {
   const accessTokenEndpoint = 'https://accounts.spotify.com/api/token'
-
-  const headersObject = {
+  const requestHeaders = {
     'Content-Type': 'application/x-www-form-urlencoded', // spotify's token endpoint expects form-encoded data
     Authorization: 'Basic ' + createBase64EncodedString(clientId, clientSecret)
   }
@@ -65,7 +64,7 @@ async function getAccessToken(clientId, clientSecret, redirectUri, authorization
   })
   const accessTokenOptions = {
     method: 'POST',
-    headers: headersObject,
+    headers: requestHeaders,
     body: requestBody
   }
 
@@ -151,7 +150,7 @@ async function fetchTopItems(type, timeRange, itemsToReturn, accessToken) {
   }
 }
 
-// step 6: populate UI with top items as a bulleted list
+// step 6: use DOM manipulation to populate UI with top items as a bulleted list
 function populateUIWithTopItems(items, elementId) {
   const container = document.getElementById(elementId)
 
@@ -192,6 +191,7 @@ function createBase64EncodedString(clientId, clientSecret) {
   const basicAuthString = clientId + ':' + clientSecret
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa
+  // creates a Base64-encoded ASCII string from a binary string
   const base64EncodedString = window.btoa(basicAuthString)
 
   return base64EncodedString
