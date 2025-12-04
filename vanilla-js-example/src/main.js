@@ -1,6 +1,3 @@
-// prettier-ignore-file
-// (^ this directive comment prevents Prettier from formatting this file)
-
 // import secure credentials from .env file
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID
 const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
